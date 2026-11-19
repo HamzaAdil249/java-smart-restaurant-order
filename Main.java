@@ -1,30 +1,67 @@
+
 import java.util.Scanner;
 
-public class Main {
+public class SmartRestaurantOrder {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
 
-  final double drinkPrices = 15.50;
+        final double DRINK_PRICE = 15.50;
 
-  public static void main(String[] args) {
-    Scanner scanner = new Scanner(System.in);
+        System.out.print("Customer name: ");
+        String name = input.nextLine();
 
-    String customrName = "";
-    int customrAge = 0;
-    double priceMeal = 0;
-    boolean isStudent = false;
-    boolean isSenior = false;
-    double tipAmount = 0;
-    int numberOfDrinks = 0;
+        System.out.print("Customer age: ");
+        int age = input.nextInt();
 
-    System.out.print("Enter Your Name: ");
-    customrName = scanner.nextLine();
+        System.out.print("Meal price: ");
+        double mealPrice = input.nextDouble();
 
-    System.out.print("Enter Your Age: ");
-    customrAge = scanner.nextInt();
+        System.out.print("Number of drinks: ");
+        int drinks = input.nextInt();
 
-    
+        System.out.print("Are you a student (true/false): ");
+        boolean isStudent = input.nextBoolean();
 
-    // System.out.print("Your Name: " + customrName + " ,Your Age: " + customrAge);
+        System.out.print("Service rating (1-5): ");
+        int rating = input.nextInt();
 
-    // System.out.println("Hello World");
-  }
+        if (rating < 1 || rating > 5) {
+            System.out.println("Error: Invalid service rating.");
+        } else {
+            double drinksCost = drinks * DRINK_PRICE;
+            double subtotal = mealPrice + drinksCost;
+            double discount;
+
+            if (isStudent) {
+                discount = subtotal * 0.10;
+            } else if (age >= 60) {
+                discount = subtotal * 0.05;
+            } else {
+                discount = 0;
+            }
+
+            double afterDiscount = subtotal - discount;
+            double tip;
+
+            if (rating == 4 || rating == 5) {
+                tip = afterDiscount * 0.10;
+            } else {
+                tip = 0;
+            }
+
+            double finalBill = afterDiscount + tip;
+            int wholeAmount = (int) finalBill;
+
+            System.out.println("\nSMART RESTAURANT");
+            System.out.println("Customer: " + name);
+            System.out.printf("Meal: $%.2f%n", mealPrice);
+            System.out.printf("Drinks: $%.2f%n", drinksCost);
+            System.out.printf("Discount: $%.2f%n", discount);
+            System.out.printf("Tip: $%.2f%n", tip);
+            System.out.printf("Final bill: $%.2f%n", finalBill);
+            System.out.println("Whole amount: $" + wholeAmount);
+        }
+
+        input.close();
+    }
 }
